@@ -24,12 +24,17 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigationBar()
+        tableView.register(ContactCell.self, forCellReuseIdentifier: reuseIdentifier)
+    }
+    
+    fileprivate func setupNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show IndexPath", style: .plain, target: self, action: #selector(handleShowIndexPath))
+        navigationItem.rightBarButtonItem?.tintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         
         navigationItem.title = "Contacts"
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
 }
 

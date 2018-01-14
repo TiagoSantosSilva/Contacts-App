@@ -13,6 +13,7 @@
 		27619C9D200BA66B00435558 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27619C9C200BA66B00435558 /* Assets.xcassets */; };
 		27619CA0200BA66B00435558 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27619C9E200BA66B00435558 /* LaunchScreen.storyboard */; };
 		27619CA8200BB90500435558 /* ExpandableName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27619CA7200BB90500435558 /* ExpandableName.swift */; };
+		27619CAA200BBE6400435558 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27619CA9200BBE6400435558 /* ContactCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		27619C9F200BA66B00435558 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		27619CA1200BA66B00435558 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27619CA7200BB90500435558 /* ExpandableName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableName.swift; sourceTree = "<group>"; };
+		27619CA9200BBE6400435558 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 				27619C9E200BA66B00435558 /* LaunchScreen.storyboard */,
 				27619CA1200BA66B00435558 /* Info.plist */,
 				27619CA7200BB90500435558 /* ExpandableName.swift */,
+				27619CA9200BBE6400435558 /* ContactCell.swift */,
 			);
 			path = "Contacts-App";
 			sourceTree = "<group>";
@@ -139,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27619CAA200BBE6400435558 /* ContactCell.swift in Sources */,
 				27619C98200BA66B00435558 /* ViewController.swift in Sources */,
 				27619C96200BA66B00435558 /* AppDelegate.swift in Sources */,
 				27619CA8200BB90500435558 /* ExpandableName.swift in Sources */,
