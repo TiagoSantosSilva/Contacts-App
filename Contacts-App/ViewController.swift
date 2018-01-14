@@ -82,9 +82,11 @@ extension ViewController {
         var indexPathsToReload = [IndexPath]()
         
         for section in nameMatrix.indices {
-            for row in nameMatrix[section].names.indices {
-                let indexPath = IndexPath(row: row, section: section)
-                indexPathsToReload.append(indexPath)
+            if nameMatrix[section].isExpanded {
+                for row in nameMatrix[section].names.indices {
+                    let indexPath = IndexPath(row: row, section: section)
+                    indexPathsToReload.append(indexPath)
+                }
             }
         }
         
