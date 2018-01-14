@@ -8,18 +8,37 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UITableViewController {
 
+    let reuseIdentifier = "cellId"
+    
+    let names = [ "Amy", "Bill", "Zack", "Steve", "Jack", "Jill", "Mary"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        navigationItem.title = "Contacts"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
+extension ViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return names.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        
+        cell.textLabel?.text = names[indexPath.item]
+        return cell
+    }
+}
