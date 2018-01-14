@@ -64,8 +64,14 @@ extension ViewController {
 extension ViewController {
     @objc func handleShowIndexPath() {
         print("Attempting to show index path.")
+        var indexPathsToReload = [IndexPath]()
         
-        let indexPath = IndexPath(row: 0, section: 0)
-        tableView.reloadRows(at: [indexPath], with: .left)
+        for section in nameMatrix.indices {
+            for index in nameMatrix[section].indices {
+                let indexPath = IndexPath(row: index, section: section)
+                indexPathsToReload.append(indexPath)
+            }
+        }
+        tableView.reloadRows(at: indexPathsToReload, with: .left)
     }
 }
