@@ -52,6 +52,8 @@ extension ViewController {
         
         let contact = nameMatrix[indexPath.section].contacts[indexPath.row]
         
+        cell.accessoryView?.tintColor = contact.hasFavorited ? #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        
         if showIndexPaths {
             cell.textLabel?.text = "\(contact.name)     Section: \(indexPath.section)    Row: \(indexPath.row)"
         } else {
@@ -115,7 +117,7 @@ extension ViewController {
         let isExpanded = nameMatrix[section].isExpanded
         nameMatrix[section].isExpanded = !nameMatrix[section].isExpanded
         
-        button.setTitle(nameMatrix[section].isExpanded ? "Close" : "Open", for: .normal)
+        button.setTitle(nameMatrix[section].isExpanded ? "Collapse" : "Expand", for: .normal)
         
         if isExpanded {
             tableView.deleteRows(at: indexPathsToMutate, with: .fade)
@@ -127,9 +129,9 @@ extension ViewController {
 
 extension ViewController {
     func favoriteTappedContact(cell: UITableViewCell) {
-        let indexPath = tableView.indexPath(for: cell)
-        let contact = nameMatrix[(indexPath?.section)!].contacts[(indexPath?.row)!]
-        nameMatrix[(indexPath?.section)!].contacts[(indexPath?.row)!].hasFavorited = !nameMatrix[(indexPath?.section)!].contacts[(indexPath?.row)!].hasFavorited
-        print(contact.name, contact.hasFavorited)
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        nameMatrix[(indexPath.section)].contacts[(indexPath.row)].hasFavorited = !nameMatrix[indexPath.section].contacts[indexPath.row].hasFavorited
+        
+        tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }
