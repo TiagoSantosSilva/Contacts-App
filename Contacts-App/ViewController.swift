@@ -14,10 +14,10 @@ class ViewController: UITableViewController {
     let reuseIdentifier = "cellId"
     
     var nameMatrix = [
-        ExpandableName(isExpanded: true, contacts: [Contact(name: "Amy", hasFavorited: false), Contact(name: "Bill", hasFavorited: false), Contact(name: "Zack", hasFavorited: false), Contact(name: "Steve", hasFavorited: false), Contact(name: "Jack", hasFavorited: false), Contact(name: "Jill", hasFavorited: false), Contact(name: "Mary", hasFavorited: false)]),
-        ExpandableName(isExpanded: true, contacts: [Contact(name: "Carl", hasFavorited: false), Contact(name: "Chris", hasFavorited: false), Contact(name: "Chirstina", hasFavorited: false), Contact(name: "Cameron", hasFavorited: false)]),
-        ExpandableName(isExpanded: true, contacts: [Contact(name: "David", hasFavorited: false), Contact(name: "Dan", hasFavorited: false)]),
-        ExpandableName(isExpanded: true, contacts: [Contact(name: "Patrick", hasFavorited: false), Contact(name: "Patty", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "Amy", hasFavorited: false), FavoritableContact(name: "Bill", hasFavorited: false), FavoritableContact(name: "Zack", hasFavorited: false), FavoritableContact(name: "Steve", hasFavorited: false), FavoritableContact(name: "Jack", hasFavorited: false), FavoritableContact(name: "Jill", hasFavorited: false), FavoritableContact(name: "Mary", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "Carl", hasFavorited: false), FavoritableContact(name: "Chris", hasFavorited: false), FavoritableContact(name: "Chirstina", hasFavorited: false), FavoritableContact(name: "Cameron", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "David", hasFavorited: false), FavoritableContact(name: "Dan", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "Patrick", hasFavorited: false), FavoritableContact(name: "Patty", hasFavorited: false)]),
         ]
     
     var showIndexPaths = false
@@ -71,7 +71,7 @@ extension ViewController {
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let button = UIButton(type: .system)
-        button.setTitle("Close", for: .normal)
+        button.setTitle("Collapse", for: .normal)
         button.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
@@ -148,6 +148,8 @@ extension ViewController {
             if granted {
                 print("Access granted.")
                 
+                var favoritableContacts = [FavoritableContact]()
+                
                 let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
                 let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
                 
@@ -156,7 +158,12 @@ extension ViewController {
                         print(contact.givenName)
                         print(contact.familyName)
                         print(contact.phoneNumbers.first?.value.stringValue ?? "")
+                        
+                        favoritableContacts.append(FavoritableContact(name: contact.givenName + " " + contact.familyName, hasFavorited: false))
                     })
+                    
+                    let names = ExpandableName(isExpanded: true, contacts: favoritableContacts)
+                    self.nameMatrix.append(names)
                 } catch let err {
                     print("Failed to enumerate contacts: ", err)
                 }
