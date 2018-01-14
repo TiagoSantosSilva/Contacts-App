@@ -19,22 +19,19 @@ class ViewController: UITableViewController {
     let nameMatrix = [
     ["Amy", "Bill", "Zack", "Steve", "Jack", "Jill", "Mary"],
     ["Carl", "Chris", "Christina", "Cameron"],
-    ["David", "Dan"]
+    ["David", "Dan"],
+    ["Patrick", "Patty"]
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Show IndexPath", style: .plain, target: self, action: #selector(handleShowIndexPath))
         
         navigationItem.title = "Contacts"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
 
@@ -61,5 +58,14 @@ extension ViewController {
         label.text = "Header"
         label.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
         return label
+    }
+}
+
+extension ViewController {
+    @objc func handleShowIndexPath() {
+        print("Attempting to show index path.")
+        
+        let indexPath = IndexPath(row: 0, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .left)
     }
 }
