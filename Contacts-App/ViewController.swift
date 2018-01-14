@@ -23,6 +23,8 @@ class ViewController: UITableViewController {
     ["Patrick", "Patty"]
     ]
     
+    var showIndexPaths = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,16 +64,22 @@ extension ViewController {
 }
 
 extension ViewController {
+    
     @objc func handleShowIndexPath() {
         print("Attempting to show index path.")
         var indexPathsToReload = [IndexPath]()
         
         for section in nameMatrix.indices {
-            for index in nameMatrix[section].indices {
-                let indexPath = IndexPath(row: index, section: section)
+            for row in nameMatrix[section].indices {
+                let indexPath = IndexPath(row: row, section: section)
                 indexPathsToReload.append(indexPath)
             }
         }
-        tableView.reloadRows(at: indexPathsToReload, with: .left)
+        
+        showIndexPaths = !showIndexPaths
+        
+        let anymationStyle = showIndexPaths ? UITableViewRowAnimation.right : .left
+        
+        tableView.reloadRows(at: indexPathsToReload, with: anymationStyle)
     }
 }
