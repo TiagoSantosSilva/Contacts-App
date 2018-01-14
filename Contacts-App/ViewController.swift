@@ -12,7 +12,7 @@ class ViewController: UITableViewController {
 
     let reuseIdentifier = "cellId"
     
-    let nameMatrix = [
+    var nameMatrix = [
         ExpandableName(isExpanded: true, names: ["Amy", "Bill", "Zack", "Steve", "Jack", "Jill", "Mary"]),
         ExpandableName(isExpanded: true, names: ["Carl", "Chris", "Christina", "Cameron"]),
         ExpandableName(isExpanded: true, names: ["David", "Dan"]),
@@ -35,6 +35,9 @@ class ViewController: UITableViewController {
 
 extension ViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if !nameMatrix[section].isExpanded {
+            return 0
+        }
         return nameMatrix[section].names.count
     }
     
@@ -96,13 +99,20 @@ extension ViewController {
         print("Triying to expand or close.")
         
         let section = button.tag
-        var indexPathsToDelete = [IndexPath]()
+        var indexPathsToMutate = [IndexPath]()
         
-        for row in nameMatrix[0].names.indices {
+        for row in nameMatrix[section].names.indices {
             let indexPath = IndexPath(row: row, section: section)
-            indexPathsToDelete.append(indexPath)
+            indexPathsToMutate.append(indexPath)
         }
         
-        tableView.deleteRows(at: indexPathsToDelete, with: .fade)
+        let isExpanded = nameMatrix[section].isExpanded
+        nameMatrix[section].isExpanded = !nameMatrix[section].isExpanded
+        
+        if isExpanded {
+            tableView.deleteRows(at: indexPathsToMutate, with: .fade)
+        } else {
+            tableView.insertRows(at: indexPathsToMutate, with: .fade)
+        }
     }
 }
