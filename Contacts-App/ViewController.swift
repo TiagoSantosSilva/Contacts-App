@@ -9,15 +9,15 @@
 import UIKit
 
 class ViewController: UITableViewController {
-
+    
     let reuseIdentifier = "cellId"
     
     var nameMatrix = [
-        ExpandableName(isExpanded: true, names: ["Amy", "Bill", "Zack", "Steve", "Jack", "Jill", "Mary"]),
-        ExpandableName(isExpanded: true, names: ["Carl", "Chris", "Christina", "Cameron"]),
-        ExpandableName(isExpanded: true, names: ["David", "Dan"]),
-        ExpandableName(isExpanded: true, names: ["Patrick", "Patty"]),
-    ]
+        ExpandableName(isExpanded: true, contacts: [Contact(name: "Amy", hasFavorited: false), Contact(name: "Bill", hasFavorited: false), Contact(name: "Zack", hasFavorited: false), Contact(name: "Steve", hasFavorited: false), Contact(name: "Jack", hasFavorited: false), Contact(name: "Jill", hasFavorited: false), Contact(name: "Mary", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [Contact(name: "Carl", hasFavorited: false), Contact(name: "Chris", hasFavorited: false), Contact(name: "Chirstina", hasFavorited: false), Contact(name: "Cameron", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [Contact(name: "David", hasFavorited: false), Contact(name: "Dan", hasFavorited: false)]),
+        ExpandableName(isExpanded: true, contacts: [Contact(name: "Patrick", hasFavorited: false), Contact(name: "Patty", hasFavorited: false)]),
+        ]
     
     var showIndexPaths = false
     
@@ -43,18 +43,19 @@ extension ViewController {
         if !nameMatrix[section].isExpanded {
             return 0
         }
-        return nameMatrix[section].names.count
+        return nameMatrix[section].contacts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ContactCell
+        cell.viewController = self
         
-        let name = nameMatrix[indexPath.section].names[indexPath.row]
+        let contact = nameMatrix[indexPath.section].contacts[indexPath.row]
         
         if showIndexPaths {
-            cell.textLabel?.text = "\(name)     Section: \(indexPath.section)    Row: \(indexPath.row)"
+            cell.textLabel?.text = "\(contact.name)     Section: \(indexPath.section)    Row: \(indexPath.row)"
         } else {
-            cell.textLabel?.text = name
+            cell.textLabel?.text = contact.name
         }
         
         return cell
@@ -88,7 +89,7 @@ extension ViewController {
         
         for section in nameMatrix.indices {
             if nameMatrix[section].isExpanded {
-                for row in nameMatrix[section].names.indices {
+                for row in nameMatrix[section].contacts.indices {
                     let indexPath = IndexPath(row: row, section: section)
                     indexPathsToReload.append(indexPath)
                 }
@@ -103,12 +104,10 @@ extension ViewController {
     }
     
     @objc func handleExpandClose(button: UIButton) {
-        print("Triying to expand or close.")
-        
         let section = button.tag
         var indexPathsToMutate = [IndexPath]()
         
-        for row in nameMatrix[section].names.indices {
+        for row in nameMatrix[section].contacts.indices {
             let indexPath = IndexPath(row: row, section: section)
             indexPathsToMutate.append(indexPath)
         }
@@ -123,5 +122,14 @@ extension ViewController {
         } else {
             tableView.insertRows(at: indexPathsToMutate, with: .fade)
         }
+    }
+}
+
+extension ViewController {
+    func favoriteTappedContact(cell: UITableViewCell) {
+        let indexPath = tableView.indexPath(for: cell)
+        let contact = nameMatrix[(indexPath?.section)!].contacts[(indexPath?.row)!]
+        nameMatrix[(indexPath?.section)!].contacts[(indexPath?.row)!].hasFavorited = !nameMatrix[(indexPath?.section)!].contacts[(indexPath?.row)!].hasFavorited
+        print(contact.name, contact.hasFavorited)
     }
 }

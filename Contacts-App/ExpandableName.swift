@@ -10,5 +10,10 @@ import Foundation
 
 struct ExpandableName {
     var isExpanded: Bool
-    let names: [String]
+    var contacts: [Contact]
+}
+
+struct Contact {
+    let name: String
+    var hasFavorited: Bool
 }
