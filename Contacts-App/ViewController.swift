@@ -61,10 +61,18 @@ extension ViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.text = "Header"
-        label.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
-        return label
+        let button = UIButton(type: .system)
+        button.setTitle("Close", for: .normal)
+        button.setTitleColor(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1), for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
+        
+        button.addTarget(self, action: #selector(handleExpandClose), for: .touchUpInside)
+        return button
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 34
     }
 }
 
@@ -86,5 +94,9 @@ extension ViewController {
         let anymationStyle = showIndexPaths ? UITableViewRowAnimation.left : .right
         
         tableView.reloadRows(at: indexPathsToReload, with: anymationStyle)
+    }
+    
+    @objc func handleExpandClose() {
+        print("Triying to expand or close.")
     }
 }
