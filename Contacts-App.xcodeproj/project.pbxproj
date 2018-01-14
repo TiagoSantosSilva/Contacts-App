@@ -14,6 +14,8 @@
 		27619CA0200BA66B00435558 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27619C9E200BA66B00435558 /* LaunchScreen.storyboard */; };
 		27619CA8200BB90500435558 /* ExpandableName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27619CA7200BB90500435558 /* ExpandableName.swift */; };
 		27619CAA200BBE6400435558 /* ContactCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27619CA9200BBE6400435558 /* ContactCell.swift */; };
+		27619CB0200BDB3D00435558 /* ViewControllerTableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27619CAF200BDB3D00435558 /* ViewControllerTableViewExtension.swift */; };
+		27619CB2200BDB9F00435558 /* ViewControllerHandlersExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27619CB1200BDB9F00435558 /* ViewControllerHandlersExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		27619CA1200BA66B00435558 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		27619CA7200BB90500435558 /* ExpandableName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableName.swift; sourceTree = "<group>"; };
 		27619CA9200BBE6400435558 /* ContactCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCell.swift; sourceTree = "<group>"; };
+		27619CAF200BDB3D00435558 /* ViewControllerTableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerTableViewExtension.swift; sourceTree = "<group>"; };
+		27619CB1200BDB9F00435558 /* ViewControllerHandlersExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewControllerHandlersExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,16 +62,50 @@
 		27619C94200BA66B00435558 /* Contacts-App */ = {
 			isa = PBXGroup;
 			children = (
+				27619CAE200BDAFB00435558 /* Extensions */,
+				27619CAD200BDAF000435558 /* Controllers */,
+				27619CAC200BDAE000435558 /* Views */,
+				27619CAB200BDAD900435558 /* Models */,
 				27619C95200BA66B00435558 /* AppDelegate.swift */,
-				27619C97200BA66B00435558 /* ViewController.swift */,
 				27619C99200BA66B00435558 /* Main.storyboard */,
 				27619C9C200BA66B00435558 /* Assets.xcassets */,
 				27619C9E200BA66B00435558 /* LaunchScreen.storyboard */,
 				27619CA1200BA66B00435558 /* Info.plist */,
 				27619CA7200BB90500435558 /* ExpandableName.swift */,
-				27619CA9200BBE6400435558 /* ContactCell.swift */,
 			);
 			path = "Contacts-App";
+			sourceTree = "<group>";
+		};
+		27619CAB200BDAD900435558 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		27619CAC200BDAE000435558 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				27619CA9200BBE6400435558 /* ContactCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		27619CAD200BDAF000435558 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				27619C97200BA66B00435558 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		27619CAE200BDAFB00435558 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				27619CAF200BDB3D00435558 /* ViewControllerTableViewExtension.swift */,
+				27619CB1200BDB9F00435558 /* ViewControllerHandlersExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,7 +183,9 @@
 				27619CAA200BBE6400435558 /* ContactCell.swift in Sources */,
 				27619C98200BA66B00435558 /* ViewController.swift in Sources */,
 				27619C96200BA66B00435558 /* AppDelegate.swift in Sources */,
+				27619CB0200BDB3D00435558 /* ViewControllerTableViewExtension.swift in Sources */,
 				27619CA8200BB90500435558 /* ExpandableName.swift in Sources */,
+				27619CB2200BDB9F00435558 /* ViewControllerHandlersExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
