@@ -109,6 +109,8 @@ extension ViewController {
         let isExpanded = nameMatrix[section].isExpanded
         nameMatrix[section].isExpanded = !nameMatrix[section].isExpanded
         
+        button.setTitle(nameMatrix[section].isExpanded ? "Close" : "Open", for: .normal)
+        
         if isExpanded {
             tableView.deleteRows(at: indexPathsToMutate, with: .fade)
         } else {
