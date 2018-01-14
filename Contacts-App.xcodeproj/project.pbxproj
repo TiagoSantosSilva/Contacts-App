@@ -71,7 +71,6 @@
 				27619C9C200BA66B00435558 /* Assets.xcassets */,
 				27619C9E200BA66B00435558 /* LaunchScreen.storyboard */,
 				27619CA1200BA66B00435558 /* Info.plist */,
-				27619CA7200BB90500435558 /* ExpandableName.swift */,
 			);
 			path = "Contacts-App";
 			sourceTree = "<group>";
@@ -79,6 +78,7 @@
 		27619CAB200BDAD900435558 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				27619CA7200BB90500435558 /* ExpandableName.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
