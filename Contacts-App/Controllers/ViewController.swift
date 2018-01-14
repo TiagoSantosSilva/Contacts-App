@@ -66,6 +66,10 @@ extension ViewController {
                     
                     let names = ExpandableName(isExpanded: true, contacts: favoritableContacts)
                     self.nameList.append(names)
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 } catch let err {
                     print("Failed to enumerate contacts: ", err)
                 }
