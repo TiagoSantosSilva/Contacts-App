@@ -47,7 +47,12 @@ extension ViewController {
         
         let name = nameMatrix[indexPath.section][indexPath.row]
         
-        cell.textLabel?.text = name
+        if showIndexPaths {
+            cell.textLabel?.text = "\(name)     Section: \(indexPath.section)    Row: \(indexPath.row)"
+        } else {
+            cell.textLabel?.text = name
+        }
+        
         return cell
     }
     
@@ -78,7 +83,7 @@ extension ViewController {
         
         showIndexPaths = !showIndexPaths
         
-        let anymationStyle = showIndexPaths ? UITableViewRowAnimation.right : .left
+        let anymationStyle = showIndexPaths ? UITableViewRowAnimation.left : .right
         
         tableView.reloadRows(at: indexPathsToReload, with: anymationStyle)
     }
