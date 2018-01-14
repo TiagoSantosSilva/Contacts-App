@@ -13,12 +13,7 @@ class ViewController: UITableViewController {
     
     let reuseIdentifier = "cellId"
     
-    var nameMatrix = [
-        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "Amy", hasFavorited: false), FavoritableContact(name: "Bill", hasFavorited: false), FavoritableContact(name: "Zack", hasFavorited: false), FavoritableContact(name: "Steve", hasFavorited: false), FavoritableContact(name: "Jack", hasFavorited: false), FavoritableContact(name: "Jill", hasFavorited: false), FavoritableContact(name: "Mary", hasFavorited: false)]),
-        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "Carl", hasFavorited: false), FavoritableContact(name: "Chris", hasFavorited: false), FavoritableContact(name: "Chirstina", hasFavorited: false), FavoritableContact(name: "Cameron", hasFavorited: false)]),
-        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "David", hasFavorited: false), FavoritableContact(name: "Dan", hasFavorited: false)]),
-        ExpandableName(isExpanded: true, contacts: [FavoritableContact(name: "Patrick", hasFavorited: false), FavoritableContact(name: "Patty", hasFavorited: false)]),
-        ]
+    var nameList = [ExpandableName]()
     
     var showIndexPaths = false
     
@@ -42,31 +37,34 @@ class ViewController: UITableViewController {
 
 extension ViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !nameMatrix[section].isExpanded {
+        if !nameList[section].isExpanded {
             return 0
         }
-        return nameMatrix[section].contacts.count
+        return nameList[section].contacts.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ContactCell
+        let cell = ContactCell(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         cell.viewController = self
         
-        let contact = nameMatrix[indexPath.section].contacts[indexPath.row]
+        let favoritableContact = nameList[indexPath.section].contacts[indexPath.row]
+        cell.accessoryView?.tintColor = favoritableContact.hasFavorited ? #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         
-        cell.accessoryView?.tintColor = contact.hasFavorited ? #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1) : #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        let favoritableContactContent = "\(favoritableContact.contact.givenName) \(favoritableContact.contact.familyName)"
+        cell.detailTextLabel?.text = favoritableContact.contact.phoneNumbers.first?.value.stringValue
         
         if showIndexPaths {
-            cell.textLabel?.text = "\(contact.name)     Section: \(indexPath.section)    Row: \(indexPath.row)"
+            cell.textLabel?.text = "\(favoritableContactContent)     Section: \(indexPath.section)    Row: \(indexPath.row)"
         } else {
-            cell.textLabel?.text = contact.name
+            cell.textLabel?.text = favoritableContactContent
         }
         
         return cell
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return nameMatrix.count
+        return nameList.count
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -88,12 +86,11 @@ extension ViewController {
 extension ViewController {
     
     @objc func handleShowIndexPath() {
-        print("Attempting to show index path.")
         var indexPathsToReload = [IndexPath]()
         
-        for section in nameMatrix.indices {
-            if nameMatrix[section].isExpanded {
-                for row in nameMatrix[section].contacts.indices {
+        for section in nameList.indices {
+            if nameList[section].isExpanded {
+                for row in nameList[section].contacts.indices {
                     let indexPath = IndexPath(row: row, section: section)
                     indexPathsToReload.append(indexPath)
                 }
@@ -111,15 +108,15 @@ extension ViewController {
         let section = button.tag
         var indexPathsToMutate = [IndexPath]()
         
-        for row in nameMatrix[section].contacts.indices {
+        for row in nameList[section].contacts.indices {
             let indexPath = IndexPath(row: row, section: section)
             indexPathsToMutate.append(indexPath)
         }
         
-        let isExpanded = nameMatrix[section].isExpanded
-        nameMatrix[section].isExpanded = !nameMatrix[section].isExpanded
+        let isExpanded = nameList[section].isExpanded
+        nameList[section].isExpanded = !nameList[section].isExpanded
         
-        button.setTitle(nameMatrix[section].isExpanded ? "Collapse" : "Expand", for: .normal)
+        button.setTitle(nameList[section].isExpanded ? "Collapse" : "Expand", for: .normal)
         
         if isExpanded {
             tableView.deleteRows(at: indexPathsToMutate, with: .fade)
@@ -132,7 +129,7 @@ extension ViewController {
 extension ViewController {
     func favoriteTappedContact(cell: UITableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        nameMatrix[(indexPath.section)].contacts[(indexPath.row)].hasFavorited = !nameMatrix[indexPath.section].contacts[indexPath.row].hasFavorited
+        nameList[(indexPath.section)].contacts[(indexPath.row)].hasFavorited = !nameList[indexPath.section].contacts[indexPath.row].hasFavorited
         
         tableView.reloadRows(at: [indexPath], with: .fade)
     }
@@ -155,15 +152,11 @@ extension ViewController {
                 
                 do {
                     try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointer) in
-                        print(contact.givenName)
-                        print(contact.familyName)
-                        print(contact.phoneNumbers.first?.value.stringValue ?? "")
-                        
-                        favoritableContacts.append(FavoritableContact(name: contact.givenName + " " + contact.familyName, hasFavorited: false))
+                        favoritableContacts.append(FavoritableContact(contact: contact, hasFavorited: false))
                     })
                     
                     let names = ExpandableName(isExpanded: true, contacts: favoritableContacts)
-                    self.nameMatrix.append(names)
+                    self.nameList.append(names)
                 } catch let err {
                     print("Failed to enumerate contacts: ", err)
                 }
