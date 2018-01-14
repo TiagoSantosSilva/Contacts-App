@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Contacts
 
 class ViewController: UITableViewController {
     
@@ -24,6 +25,7 @@ class ViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fetchContacts()
         setupNavigationBar()
         tableView.register(ContactCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
@@ -133,5 +135,35 @@ extension ViewController {
         nameMatrix[(indexPath.section)].contacts[(indexPath.row)].hasFavorited = !nameMatrix[indexPath.section].contacts[indexPath.row].hasFavorited
         
         tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
+    private func fetchContacts() {
+        let store = CNContactStore()
+        store.requestAccess(for: .contacts) { (granted, error) in
+            if let error = error {
+                print("Failed to request access: ", error)
+                return
+            }
+            
+            if granted {
+                print("Access granted.")
+                
+                let keys = [CNContactGivenNameKey, CNContactFamilyNameKey, CNContactPhoneNumbersKey]
+                let request = CNContactFetchRequest(keysToFetch: keys as [CNKeyDescriptor])
+                
+                do {
+                    try store.enumerateContacts(with: request, usingBlock: { (contact, stopPointer) in
+                        print(contact.givenName)
+                        print(contact.familyName)
+                        print(contact.phoneNumbers.first?.value.stringValue ?? "")
+                    })
+                } catch let err {
+                    print("Failed to enumerate contacts: ", err)
+                }
+                
+            } else {
+                print("Access denied.")
+            }
+        }
     }
 }
