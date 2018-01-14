@@ -13,7 +13,14 @@ class ViewController: UITableViewController {
     let reuseIdentifier = "cellId"
     
     let names = ["Amy", "Bill", "Zack", "Steve", "Jack", "Jill", "Mary"]
-    let otherNames = ["Carl", "Chris", "Christina", "Cameron"]
+    let cNames = ["Carl", "Chris", "Christina", "Cameron"]
+    let dNames = ["David", "Dan"]
+    
+    let nameMatrix = [
+    ["Amy", "Bill", "Zack", "Steve", "Jack", "Jill", "Mary"],
+    ["Carl", "Chris", "Christina", "Cameron"],
+    ["David", "Dan"]
+    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,26 +40,20 @@ class ViewController: UITableViewController {
 
 extension ViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if section == 0 {
-            return names.count
-        }
-        return otherNames.count
+        return nameMatrix[section].count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
         
-//        let name = names[indexPath.item]
-        
-        let name = indexPath.section == 0 ? names[indexPath.row] : otherNames[indexPath.row]
+        let name = nameMatrix[indexPath.section][indexPath.row]
         
         cell.textLabel?.text = name
         return cell
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        return nameMatrix.count
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
